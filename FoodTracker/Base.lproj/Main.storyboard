@@ -35,7 +35,7 @@
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <stackView opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="pzr-y9-enE" customClass="RatingControl" customModule="FoodTracker" customModuleProvider="target">
+                                        <stackView opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" ambiguous="YES" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="pzr-y9-enE" customClass="RatingControl" customModule="FoodTracker" customModuleProvider="target">
                                             <rect key="frame" x="112" y="23" width="252" height="44"/>
                                         </stackView>
                                     </subviews>
@@ -86,19 +86,19 @@
                                 <rect key="frame" x="0.0" y="138" width="414" height="404.5"/>
                                 <subviews>
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter meal name" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="1MG-za-H0y">
-                                        <rect key="frame" x="139" y="0.0" width="136" height="64.5"/>
+                                        <rect key="frame" x="139" y="0.0" width="136" height="58.5"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits" returnKeyType="done" enablesReturnKeyAutomatically="YES"/>
                                     </textField>
                                     <imageView clipsSubviews="YES" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" placeholderIntrinsicWidth="200" placeholderIntrinsicHeight="280" image="defaultPhoto" translatesAutoresizingMaskIntoConstraints="NO" id="nBQ-y2-6YY">
-                                        <rect key="frame" x="107" y="72.5" width="200" height="280"/>
+                                        <rect key="frame" x="107" y="66.5" width="200" height="280"/>
                                         <gestureRecognizers/>
                                         <connections>
                                             <outletCollection property="gestureRecognizers" destination="fmJ-hS-ChM" appends="YES" id="MFf-1E-y3g"/>
                                         </connections>
                                     </imageView>
                                     <stackView opaque="NO" contentMode="scaleToFill" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="ifr-3p-t50" customClass="RatingControl" customModule="FoodTracker" customModuleProvider="target">
-                                        <rect key="frame" x="81" y="360.5" width="252" height="44"/>
+                                        <rect key="frame" x="81" y="354.5" width="252" height="50"/>
                                     </stackView>
                                 </subviews>
                             </stackView>
