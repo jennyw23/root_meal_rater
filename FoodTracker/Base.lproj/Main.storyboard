@@ -23,31 +23,22 @@
                                     <rect key="frame" x="0.0" y="0.0" width="414" height="90"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="defaultPhoto" translatesAutoresizingMaskIntoConstraints="NO" id="sEf-1y-rUF">
-                                            <rect key="frame" x="0.0" y="0.0" width="105" height="92"/>
+                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="defaultPhoto" translatesAutoresizingMaskIntoConstraints="NO" id="sEf-1y-rUF">
+                                            <rect key="frame" x="0.0" y="0.0" width="90" height="90"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         </imageView>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="A6T-MK-l6G">
-                                            <rect key="frame" x="113" y="0.0" width="302" height="26"/>
-                                            <constraints>
-                                                <constraint firstAttribute="width" constant="302" id="dDd-jn-KGk"/>
-                                            </constraints>
-                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <stackView opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" fixedFrame="YES" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="pzr-y9-enE" customClass="RatingControl" customModule="FoodTracker" customModuleProvider="target">
+                                            <rect key="frame" x="98" y="34" width="252" height="44"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        </stackView>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="A6T-MK-l6G">
+                                            <rect key="frame" x="98" y="0.0" width="316" height="33"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <fontDescription key="fontDescription" type="system" weight="thin" pointSize="17"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <stackView opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" ambiguous="YES" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="pzr-y9-enE" customClass="RatingControl" customModule="FoodTracker" customModuleProvider="target">
-                                            <rect key="frame" x="112" y="23" width="252" height="44"/>
-                                        </stackView>
                                     </subviews>
-                                    <constraints>
-                                        <constraint firstItem="A6T-MK-l6G" firstAttribute="leading" secondItem="pzr-y9-enE" secondAttribute="leading" id="AQE-Ye-DtS"/>
-                                        <constraint firstItem="pzr-y9-enE" firstAttribute="centerY" secondItem="fXi-9M-CtE" secondAttribute="centerY" id="QBP-UL-Rdb"/>
-                                        <constraint firstItem="pzr-y9-enE" firstAttribute="centerY" secondItem="sEf-1y-rUF" secondAttribute="centerY" id="QzF-wO-nTF"/>
-                                        <constraint firstAttribute="bottomMargin" secondItem="A6T-MK-l6G" secondAttribute="bottom" constant="53" id="SAn-WJ-AkK"/>
-                                        <constraint firstItem="A6T-MK-l6G" firstAttribute="top" secondItem="fXi-9M-CtE" secondAttribute="topMargin" constant="-11" id="cCq-2R-KyH"/>
-                                        <constraint firstAttribute="trailingMargin" secondItem="A6T-MK-l6G" secondAttribute="trailing" constant="-20" id="dCP-rg-Lrp"/>
-                                        <constraint firstItem="A6T-MK-l6G" firstAttribute="leading" secondItem="sEf-1y-rUF" secondAttribute="trailing" constant="8" id="oAA-dj-M9M"/>
-                                    </constraints>
                                 </tableViewCellContentView>
                                 <connections>
                                     <outlet property="nameLabel" destination="A6T-MK-l6G" id="SUd-Sz-d5k"/>
@@ -86,19 +77,19 @@
                                 <rect key="frame" x="0.0" y="138" width="414" height="404.5"/>
                                 <subviews>
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter meal name" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="1MG-za-H0y">
-                                        <rect key="frame" x="139" y="0.0" width="136" height="58.5"/>
+                                        <rect key="frame" x="139" y="0.0" width="136" height="64.5"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits" returnKeyType="done" enablesReturnKeyAutomatically="YES"/>
                                     </textField>
                                     <imageView clipsSubviews="YES" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" placeholderIntrinsicWidth="200" placeholderIntrinsicHeight="280" image="defaultPhoto" translatesAutoresizingMaskIntoConstraints="NO" id="nBQ-y2-6YY">
-                                        <rect key="frame" x="107" y="66.5" width="200" height="280"/>
+                                        <rect key="frame" x="107" y="72.5" width="200" height="280"/>
                                         <gestureRecognizers/>
                                         <connections>
                                             <outletCollection property="gestureRecognizers" destination="fmJ-hS-ChM" appends="YES" id="MFf-1E-y3g"/>
                                         </connections>
                                     </imageView>
                                     <stackView opaque="NO" contentMode="scaleToFill" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="ifr-3p-t50" customClass="RatingControl" customModule="FoodTracker" customModuleProvider="target">
-                                        <rect key="frame" x="81" y="354.5" width="252" height="50"/>
+                                        <rect key="frame" x="81" y="360.5" width="252" height="44"/>
                                     </stackView>
                                 </subviews>
                             </stackView>

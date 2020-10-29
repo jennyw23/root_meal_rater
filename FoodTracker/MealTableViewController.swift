@@ -12,25 +12,25 @@ import os.log
 class MealTableViewController: UITableViewController {
     
     //MARK: Properties
+     
+    var meals: [Meal] = [Meal]()
     
-    var meals = [Meal]()
-    
-
     override func viewDidLoad() {
         super.viewDidLoad()
         
         // Use the edit button item provided by the table view controller.
         navigationItem.leftBarButtonItem = editButtonItem
         
-        // Load any saved meals, otherwise load sample data
-        if let savedMeals = loadMeals() {
-            meals += savedMeals
-        }
-        else {
-            // Load the sample data.
+        // Set a constant savedMeals to the meals we load from NSKeyedUnarchiver
+        let savedMeals = loadMeals()
+        
+        //loadSampleMeals()
+        
+        if (savedMeals?.count ?? 0) > 0 {
+            meals = savedMeals ?? [Meal]()
+        } else{
             loadSampleMeals()
         }
-        
     }
 
     // MARK: - Table view data source
@@ -60,20 +60,15 @@ class MealTableViewController: UITableViewController {
         cell.nameLabel.text = meal.name
         cell.photoImageView.image = meal.photo
         cell.ratingControl.rating = meal.rating
-        
 
         return cell
     }
-    
-
     
     // Override to support conditional editing of the table view.
     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
         // Return false if you do not want the specified item to be editable.
         return true
     }
-    
-
     
     // Override to support editing the table view.
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
@@ -87,11 +82,9 @@ class MealTableViewController: UITableViewController {
         }    
     }
     
-
     /*
     // Override to support rearranging the table view.
     override func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to: IndexPath) {
-
     }
     */
 
@@ -135,29 +128,27 @@ class MealTableViewController: UITableViewController {
         default:
             fatalError("Unexpected Segue Identifier; \(String(describing: segue.identifier))")
         }
-        
     }
     
-
     //MARK: Private Methods
     
     private func loadSampleMeals(){
-        let burger = UIImage(named: "burger")
-        let sandwich = UIImage(named: "sandwich")
-        let coffee = UIImage(named: "coffee")
-        let pizza = UIImage(named: "pizza")
+        let photo1 = UIImage(named: "meal1")
+        let photo2 = UIImage(named: "meal2")
+        let photo3 = UIImage(named: "meal3")
+        let photo4 = UIImage(named: "meal4")
         
-        guard let meal1 = Meal(name: "Burger", photo: burger, rating: 4) else{
-            fatalError("Unable to instantiate burger")
+        guard let meal1 = Meal(name: "Burger", photo: photo1, rating: 4) else{
+            fatalError("Unable to instantiate meal1")
         }
-        guard let meal2 = Meal(name: "Sandwich", photo: sandwich, rating: 2) else{
-            fatalError("Unable to instantiate sandwich")
+        guard let meal2 = Meal(name: "Coffee", photo: photo2, rating: 2) else{
+            fatalError("Unable to instantiate meal2")
         }
-        guard let meal3 = Meal(name: "Coffee", photo: coffee, rating: 5) else{
-            fatalError("Unable to instantiate coffee")
+        guard let meal3 = Meal(name: "Pizza", photo: photo3, rating: 5) else{
+            fatalError("Unable to instantiate meal3")
         }
-        guard let meal4 = Meal(name: "Pizza", photo: pizza, rating: 4) else{
-            fatalError("Unable to instantiate pizza")
+        guard let meal4 = Meal(name: "Sandwich", photo: photo4, rating: 4) else{
+            fatalError("Unable to instantiate meal4")
         }
         
         meals += [meal1, meal2, meal3, meal4]
@@ -165,17 +156,32 @@ class MealTableViewController: UITableViewController {
     
     private func saveMeals() {
         
+        let fullPath = Meal.ArchiveURL
+        
         do {
-                let data = try NSKeyedArchiver.archivedData(withRootObject: meals, requiringSecureCoding: true)
-            print(Meal.ArchiveURL)
-            try data.write(to: Meal.ArchiveURL)
-                os_log("Meals successfully saved.", log: OSLog.default, type: .debug)
-            }
-            catch {
-                os_log("Failed to save meals...", log: OSLog.default, type: .error)
-            }
+            let data = try NSKeyedArchiver.archivedData(withRootObject: meals, requiringSecureCoding: false)
+            try data.write(to: fullPath)
+            os_log("Meals successfully saved. ", log: OSLog.default, type: .debug)
+        } catch {
+            os_log("error: %@", log: .default, type: .error, String(describing: error))
+
         }
-    
+        /*
+       do {
+        
+        let mealData = try NSKeyedArchiver.archivedData(withRootObject: meals, requiringSecureCoding: true)
+        
+        try mealData.write(to: Meal.ArchiveURL)
+        print(mealData)
+        os_log("Meals successfully saved. ", log: OSLog.default, type: .debug)
+
+       } catch {
+        os_log("error: %@", log: .default, type: .error, String(describing: error))
+
+        }
+ */
+    }
+            
     //MARK: Actions
     
     @IBAction func unwindToMealList(sender: UIStoryboardSegue) {
@@ -190,7 +196,6 @@ class MealTableViewController: UITableViewController {
             else {
                 // Add a new meal.
                 let newIndexPath = IndexPath(row: meals.count, section: 0)
-                
                 meals.append(meal)
                 tableView.insertRows(at: [newIndexPath], with: .automatic)
             }
@@ -203,16 +208,39 @@ class MealTableViewController: UITableViewController {
     }
     
     private func loadMeals() -> [Meal]? {
+      
+        let fullPath = Meal.ArchiveURL
         
-        do {
-            let rawdata = try Data(contentsOf: Meal.ArchiveURL)
-            if let archivedCategoryNames = try NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(rawdata) as! [Meal]? {
-                meals += archivedCategoryNames
+        if let nsData = NSData(contentsOf: fullPath) {
+            do {
+                let data = Data(referencing: nsData)
+                
+                if let loadedMeals = try NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(data) as? Array<Meal> {
+                    return loadedMeals
+                }
+            }catch {
+                    print("could not read file")
+                    return nil
+                }
             }
+        
+        return nil
+        /*
+        do {
+            
+            let fileData = try Data(contentsOf: Meal.ArchiveURL)
+            print("This is file data: ", fileData)
+            print(type(of: fileData))
+            let loadedStrings = try NSKeyedUnarchiver.unarchivedObject(ofClasses: [NSArray.self, Meal.self], from: fileData) as! [Meal] // error happening here
+            print(loadedStrings)
         } catch {
-            print("Couldn't read file")
-    }
+            //print(Meal.ArchiveURL)
+            os_log("error: %@", log: .default, type: .error, String(describing: error))
+
+        }
+   
         return meals
+         */
     }
     
 }
