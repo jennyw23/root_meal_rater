@@ -18,6 +18,8 @@ app.post('/users', async(req, res) => {
     }
 })
 
+//app.get('/', middleware.checkToken, handlers.index);
+
 // GET all users in database
 app.get('/users', async (req, res) => {
     try {

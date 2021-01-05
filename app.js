@@ -59,7 +59,12 @@ function main () {
 
   // Routes & Handlers
   app.post('/login', handlers.login);
-  app.get('/', middleware.checkToken, handlers.index);
+  app.get('/',/* middleware.checkToken,*/ handlers.index);
+
+  // we require routes to other folders to direct CRUD calls
+  const { sequelize } = require('./models')
+  require('./router/routes.js')(app);
+
   app.listen(port, async () => {
     console.log(`Server is listening on port: ${port}`)
     await sequelize.authenticate()
@@ -80,9 +85,7 @@ app.get("/", (req, res) => {
     res.json({ message: "Welcome to Jenny's nutrition application." });
   });
 
-// we require routes to other folders to direct CRUD calls
-const { sequelize } = require('./models')
-require('./router/routes.js')(app);
+
 
 app.listen({ port: 3000 }, async () => {
     console.log('Server running on localhost:3000')
