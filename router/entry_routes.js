@@ -1,11 +1,16 @@
 'use strict';
 
 module.exports = function(app) {
+  const HandlerGenerator = require('./HandlerGenerator');
+  let jwt = require('jsonwebtoken');
+  let config = require('../config');
+  const { sequelize, user, rating, meal } = require('../models')
+  let handlers = new HandlerGenerator();
 
-    let jwt = require('jsonwebtoken');
-    let config = require('../config');
-    const { sequelize, user, rating, meal } = require('../models')
 
+  // Routes & Handlers
+  app.post('/adminLogin', handlers.login);
+  app.get('/', handlers.index); 
 
     // POST a new user
 app.post('/login', async(req, res) => {

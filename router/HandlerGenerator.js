@@ -1,4 +1,8 @@
+let jwt = require('jsonwebtoken');
+let config = require('../config');
+
 class HandlerGenerator {
+
   login (req, res) {
     let username = req.body.username;
     let password = req.body.password;
@@ -20,13 +24,13 @@ class HandlerGenerator {
           token: token
         });
       } else {
-        res.send(403).json({
+        res.sendStatus(403).json({
           success: false,
           message: 'Incorrect username or password'
         });
       }
     } else {
-      res.send(400).json({
+      res.sendStatus(400).json({
         success: false,
         message: 'Authentication failed! Please check the request'
       });

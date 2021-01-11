@@ -1,32 +1,19 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const HandlerGenerator = require('./router/HandlerGenerator');
-
-let jwt = require('jsonwebtoken');
-let config = require('./config');
-let middleware = require('./middleware');
-let routes = require('./router/routes');
-let routes2 = require('./router/routes2');
-const { sequelize, user, rating, meal } = require('./models')
 
 // Starting point of the server
 function main () {
   let app = express(); // Export app for other routes to use
-  let handlers = new HandlerGenerator();
   const port = process.env.PORT || 3000;
   app.use(bodyParser.urlencoded({ // Middleware
     extended: true
   }));
   app.use(bodyParser.json());
 
-  // Routes & Handlers
-  app.post('/adminLogin', handlers.login);
-  app.get('/', handlers.index); 
-
   // we require routes to other folders to direct CRUD calls
   const { sequelize } = require('./models')
   require('./router/routes.js')(app);
-  require('./router/routes2.js')(app);
+  require('./router/entry_routes.js')(app);
 
   app.listen(port, async () => {
     console.log(`Server is listening on port: ${port}`)
