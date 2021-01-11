@@ -3,9 +3,11 @@
 module.exports = function(app) {
 
     const { sequelize, user, rating, meal } = require('../models')
+    let middleware = require('../middleware');
+
 
     // POST a new user
-app.post('/users', async(req, res) => {
+app.post('/users', middleware.checkToken, async(req, res) => {
     const { username, password, email } = req.body
 
     try {
@@ -18,10 +20,8 @@ app.post('/users', async(req, res) => {
     }
 })
 
-//app.get('/', middleware.checkToken, handlers.index);
-
 // GET all users in database
-app.get('/users', async (req, res) => {
+app.get('/users', middleware.checkToken, async (req, res) => {
     try {
 
         const Users = await user.findAll({ include: [rating]})
@@ -35,13 +35,9 @@ app.get('/users', async (req, res) => {
 })
 
 // GET a specific user by UUID
-app.get('/users/:uuid', async (req, res) => {
+app.get('/users/:uuid', middleware.checkToken, async (req, res) => {
     const userUuid = req.params.uuid
     try {
-        //const Rating = await rating.findAll({where: { uuid: userUuid} })
-        //const Ratings = await rating.findAll({include: [user]}) 
-        // ask Avi the best way to write the following pieces so that I can join the rating and meal table to show the meal name that is rated
-
         const User = await user.findOne({
             where: {userUuid: userUuid},
             include: [rating]
@@ -55,7 +51,7 @@ app.get('/users/:uuid', async (req, res) => {
 })
 
 // DELETE a specific user by UUID
-app.delete('/users/:uuid', async (req, res) => {
+app.delete('/users/:uuid', middleware.checkToken, async (req, res) => {
     const userUuid = req.params.uuid
     try {
         const User = await user.findOne({
@@ -72,7 +68,7 @@ app.delete('/users/:uuid', async (req, res) => {
 })
 
 // UPDATE a specific user by UUID
-app.put('/users/:uuid', async (req, res) => {
+app.put('/users/:uuid', middleware.checkToken, async (req, res) => {
     const userUuid = req.params.uuid
     const { username, password, email } = req.body
 
@@ -95,7 +91,7 @@ app.put('/users/:uuid', async (req, res) => {
 })
 
 // POST a new rating
-app.post('/ratings', async(req, res) => {
+app.post('/ratings', middleware.checkToken, async(req, res) => {
     const { userUuid, mealUuid, ratingScore } = req.body
 
     try {
@@ -112,7 +108,7 @@ app.post('/ratings', async(req, res) => {
 })
 
 // GET a new rating
-app.get('/ratings', async(req, res) => {
+app.get('/ratings', middleware.checkToken, async(req, res) => {
     try {
         const Ratings = await rating.findAll({
            include: [user,meal]
@@ -126,7 +122,7 @@ app.get('/ratings', async(req, res) => {
 })
 
 // POST a new meal
-app.post('/meals', async(req, res) => {
+app.post('/meals', middleware.checkToken, async(req, res) => {
     const { mealName, calories } = req.body
 
     try {
@@ -141,7 +137,7 @@ app.post('/meals', async(req, res) => {
 
 
 // GET all meals in database
-app.get('/meals', async (req, res) => {
+app.get('/meals', middleware.checkToken, async (req, res) => {
     try {
         const Meals = await meal.findAll({/* include: [rating]*/})
 
@@ -153,7 +149,7 @@ app.get('/meals', async (req, res) => {
 })
 
 // GET a specific meal by UUID
-app.get('/meals/:uuid', async (req, res) => {
+app.get('/meals/:uuid', middleware.checkToken, async (req, res) => {
     const mealUuid = req.params.uuid
     try {
         const Meal = await meal.findOne({
@@ -169,7 +165,7 @@ app.get('/meals/:uuid', async (req, res) => {
 })
 
 // DELETE a specific meal by UUID
-app.delete('/meals/:uuid', async (req, res) => {
+app.delete('/meals/:uuid', middleware.checkToken, async (req, res) => {
     const mealUuid = req.params.uuid
     try {
         const Meal = await meal.findOne({
