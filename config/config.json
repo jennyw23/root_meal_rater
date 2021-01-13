@@ -3,21 +3,26 @@
     "username": "root",
     "password": "jenny1257",
     "database": "mealrater_db",
-    "host": "localhost",
-    "dialect": "mysql"
+    "host": "127.0.0.1",
+    "dialect": "mysql",
+    "port": 3306
+
   },
   "test": {
-    "username": "root",
-    "password": null,
-    "database": "database_test",
+    "username": "jenny",
+    "password": "j1234",
+    "database": "ratemymeal_db",
     "host": "127.0.0.1",
-    "dialect": "mysql"
+    "dialect": "mysql",
+    "port": 80
+
   },
   "production": {
-    "username": "root",
-    "password": null,
-    "database": "database_production",
-    "host": "127.0.0.1",
-    "dialect": "mysql"
+    "username": "jenny",
+    "password": "j1234",
+    "database": "ratemymeal_db",
+    "host": "3.131.139.77", 
+    "dialect": "mysql",
+    "port": 80
   }
 }

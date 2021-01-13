@@ -32,10 +32,6 @@ module.exports = (sequelize, DataTypes) => {
         notNull: {msg: 'Meal must have a name'},
         notEmpty: { msg: 'Meal name must not be empty'}
       }
-    },
-    calories: {
-      type: DataTypes.STRING,
-      allowNull: false
     }
   }, {
     sequelize,

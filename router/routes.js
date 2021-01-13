@@ -21,7 +21,7 @@ app.post('/users', middleware.checkToken, async(req, res) => {
 })
 
 // GET all users in database
-app.get('/users', middleware.checkToken, async (req, res) => {
+app.get('/users', async (req, res) => {
     try {
 
         const Users = await user.findAll({ include: [rating]})
@@ -35,14 +35,24 @@ app.get('/users', middleware.checkToken, async (req, res) => {
 })
 
 // GET a specific user by UUID
-app.get('/users/:uuid', middleware.checkToken, async (req, res) => {
+app.get('/users/:uuid',  async (req, res) => {
     const userUuid = req.params.uuid
     try {
         const User = await user.findOne({
             where: {userUuid: userUuid},
-            include: [rating]
-        })
-
+             
+            include: [
+                {
+                    model: rating,
+                    include: [
+                        {
+                            model: meal,
+                            required: true
+                        }
+                    ]
+                }
+            ]})
+        
         return res.json(User)
     } catch(err) {
         console.log(err)
@@ -123,10 +133,10 @@ app.get('/ratings', middleware.checkToken, async(req, res) => {
 
 // POST a new meal
 app.post('/meals', middleware.checkToken, async(req, res) => {
-    const { mealName, calories } = req.body
+    const { mealName } = req.body
 
     try {
-        const Meal = await meal.create({ mealName, calories })
+        const Meal = await meal.create({ mealName })
 
         return res.json(Meal)
     } catch(err){
